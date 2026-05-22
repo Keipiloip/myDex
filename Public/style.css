@@ -1,0 +1,19 @@
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+.navbar {
+    background-color: #1E7CAE;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+}
+
+.hoved {
+    background-color: #6DB1BF;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    height: 100vh;
+}

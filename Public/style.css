@@ -5,6 +5,7 @@ body {
 
 .navbar {
     background-color: #1E7CAE;
+    color: #aafed5;
     padding: 0px;
     margin: 0px;
     display: flex;
@@ -16,4 +17,5 @@ body {
     margin: 0px;
     display: flex;
     height: 100vh;
+    
 }

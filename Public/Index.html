@@ -10,13 +10,21 @@
     <nav class="navbar">
         <img src = "Img/myDex Logo.png" width="80"  alt = "Pokeball logo">
         <ul class ="nav-lenker">
-            <a href="Index.html">Hjem</a>
+            <a href="Index.html">Home</a>
             <a href="Pokedex.html">Pokedex</a>
         </ul>
     </nav>
 
-    <hoved class ="hoved">
-        
+    <hoved class ="Main_content">
+        <h2>Add Pokémon</h2>
+        <form method="POST" action="/add">
+            Navn: <input type="text" name="navn"><br>
+            Dex ID: <input type="text" name="dex_id"><br>
+            Level: <input type="text" name="level"><br>
+            Type: <input type="text" name="type"><br>
+            Type 2: <input type="text" name="type2"><br>
+            <input type="submit" value="Send in">
+        </form>
         
     </hoved>
 </body>

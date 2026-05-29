@@ -20,7 +20,16 @@ app.post('/add', (req, res) => {
  res.send('Data added!'); 
  } 
  ); 
+
+});
+app.get('/api/pokemon', (req, res) => { 
+ db.query('SELECT * FROM pokemon', (err, results) => { 
+ if (err) return res.status(500).json({ error: err.message }); // If an error occurs
+ res.json(results); // Sends the data as JSON (list of Pokémon)
+ }); 
 }); 
+
 app.listen(3000, () => { 
  console.log('Server kjører på http://localhost:3000'); 
 }); 
+

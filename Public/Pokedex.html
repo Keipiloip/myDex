@@ -8,11 +8,55 @@
 </head>
 <body>
     <nav class="navbar">
-        <img src = "Img/myDex Logo.png" width="80"  alt = "Pokeball logo">
-        <ul class ="nav-lenker">
+        <img src="Img/myDex Logo.png" width="80" alt="Pokeball logo">
+        <ul class="nav-lenker">
             <a href="Index.html">Home</a>
             <a href="Pokedex.html">Pokedex</a>
         </ul>
     </nav>
+
+    <hoved class="Main_content">
+        <h2>Pokédex</h2>
+        <p>Her kommer en oversikt over alle Pokémonene du har lagt til i din Pokédex!</p>
+
+        <div id="pokedex-container"></div>
+
+    <script>
+        // Fetch data from the server
+        fetch('/api/pokemon')
+            .then(response => response.json()) // Convert the response to JSON
+            .then(data => {
+                // Find the div where the data will be displayed
+                const container = document.getElementById('pokedex-container');
+
+                // Create a bullet list
+                const list = document.createElement('ul');
+
+                // Loop through each Pokémon in the list
+                data.forEach(pokemon => {
+                const li = document.createElement('li');
+
+                    // Display name, dex ID, type and secondary type
+                    li.textContent =
+                        pokemon.Navn + ' - ' +
+                        pokemon.dex_id + ' - ' +
+                        pokemon.Type + ' - ' +
+                        pokemon.Type2;
+ 
+                    list.appendChild(li);
+                });
+
+                // Add the list to the page
+                container.appendChild(list);
+            })
+            .catch(error => {
+                // Show an error message if something goes wrong
+                document.getElementById('pokedex-container').textContent = 'Error fetching data.';
+
+            // Show the error in the console
+                console.error(error);
+            });
+      </script>
+    </hoved>
 </body>
 </html>

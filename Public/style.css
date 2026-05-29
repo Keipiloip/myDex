@@ -3,12 +3,26 @@ body {
     padding: 0px;
 }
 
-.navbar {
-    background-color: #1E7CAE;
+a {
+    text-decoration: none;
     color: #aafed5;
-    padding: 0px;
+    font-size: 30px;
+    padding-left: 20px;
+    font-weight: bold;
+}
+
+.navbar {
+    background-color: #174664;
+    color: #aafed5;
+    
+    padding-left: 50px;
+    padding-right: 150px;
     margin: 0px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+
 }
 
 .hoved {
@@ -16,6 +30,6 @@ body {
     padding: 0px;
     margin: 0px;
     display: flex;
-    height: 100vh;
+    height: 90.2vh;
     
 }

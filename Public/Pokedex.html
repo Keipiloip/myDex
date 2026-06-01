@@ -38,11 +38,23 @@
 
                     // Display name, dex ID, type and secondary type
                     li.textContent =
-                        pokemon.Navn + ' - ' +
-                        pokemon.dex_id + ' - ' +
-                        pokemon.Type + ' - ' +
+                        pokemon.Navn + ' ' +
+                        "Dex Id:" + pokemon.dex_id + ' ' +
+                        "lvl" + pokemon.Level + ' ' +
+                        pokemon.Type + ' / ' +
                         pokemon.Type2;
- 
+
+                    const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete'; 
+                        deleteButton.onclick = () => slettBruker(pokemon.id);
+
+                    const editButton = document.createElement('button');
+                        editButton.textContent = 'Edit'; 
+                        editButton.onclick = () => redigerBruker(pokemon.id, pokemon.Navn, pokemon.dex_id, pokemon.Level, pokemon.Type, pokemon.Type2);
+
+                    li.appendChild(deleteButton);
+                    li.appendChild(editButton);
+
                     list.appendChild(li);
                 });
 
@@ -56,6 +68,56 @@
             // Show the error in the console
                 console.error(error);
             });
+
+function slettBruker(id) {
+  fetch('/api/pokemon/' + id, {
+    method: 'DELETE'
+  })
+    .then(response => response.json())
+    .then(data => {
+      alert(data.message);
+      location.reload();
+    })
+    .catch(error => {
+      console.error(error);
+      alert('Error with deletion');
+    });
+}
+
+function redigerBruker(id, oldNavn, oldDexId, oldLevel, oldType, oldType2) {
+    const newNavn = prompt('write new name:', oldNavn);
+    const newdex_id = prompt('write new Dex ID:', oldDexId);
+    const newLevel = prompt('write new Level:', oldLevel);
+    const newType = prompt('write new Type:', oldType);
+    const newType2 = prompt('write new Type 2:', oldType2);
+
+    if (newNavn === null || newdex_id === null || newLevel === null || newType === null || newType2 === null) {
+        return;
+    }
+
+    fetch('/api/pokemon/' + id, {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        navn: newNavn,
+        dex_id: newdex_id,
+        Level: newLevel,
+        Type: newType,
+        Type2: newType2
+    })
+  })
+    .then(response => response.json())
+    .then(data => {
+      alert(data.message);
+      location.reload();
+    })
+    .catch(error => {
+      console.error(error);
+      alert('Error with editing');
+    });
+}
       </script>
     </hoved>
 </body>

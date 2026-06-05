@@ -34,7 +34,7 @@
 
                 // Loop through each Pokémon in the list
                 data.forEach(pokemon => {
-                const li = document.createElement('li');
+                    const li = document.createElement('li');
 
                     // Display name, dex ID, type and secondary type
                     li.textContent =
@@ -44,13 +44,25 @@
                         pokemon.Type + ' / ' +
                         pokemon.Type2;
 
+                    const img = document.createElement('img');
+                    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.Navn}`)
+                        .then(response => response.json())
+                        .then(apiData => {
+                            img.src = apiData.sprites.other.home.front_default;
+                        })
+                        .catch(apiError => {
+                            console.error('Sprite fetch error', apiError);
+                        });
+
+                    li.appendChild(img);
+
                     const deleteButton = document.createElement('button');
-                        deleteButton.textContent = 'Delete'; 
-                        deleteButton.onclick = () => slettBruker(pokemon.id);
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.onclick = () => slettBruker(pokemon.id);
 
                     const editButton = document.createElement('button');
-                        editButton.textContent = 'Edit'; 
-                        editButton.onclick = () => redigerBruker(pokemon.id, pokemon.Navn, pokemon.dex_id, pokemon.Level, pokemon.Type, pokemon.Type2);
+                    editButton.textContent = 'Edit';
+                    editButton.onclick = () => redigerBruker(pokemon.id, pokemon.Navn, pokemon.dex_id, pokemon.Level, pokemon.Type, pokemon.Type2);
 
                     li.appendChild(deleteButton);
                     li.appendChild(editButton);
@@ -65,7 +77,7 @@
                 // Show an error message if something goes wrong
                 document.getElementById('pokedex-container').textContent = 'Error fetching data.';
 
-            // Show the error in the console
+                // Show the error in the console
                 console.error(error);
             });
 

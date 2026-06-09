@@ -15,11 +15,33 @@
         </ul>
     </nav>
 
-    <hoved class="Main_content">
+    <main class="Main_content">
         <h2>Pokédex</h2>
         <p>Her kommer en oversikt over alle Pokémonene du har lagt til i din Pokédex!</p>
+    
+        <div class="card"> 
+            <div class="card-top">
+                <p>#1</p>
+                <img class="sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png">
+                
+                <div class="type-icons">
+                <img class="type-icon" src="img/Energy/grass_type.png" alt="Grass Type">
+                <img class="type-icon" src="img/Energy/poison_type.png" alt="Poison Type">
+            </div>
+                
+            </div>
+  
+            <div class="card-bottom">
+                <p>Bulbasaur</p>
+                <p class ="small">Level: 5</p>
+            
+            </div>
+
+        </div>
 
         <div id="pokedex-container"></div>
+
+        
 
     <script>
         // Fetch data from the server
@@ -131,6 +153,6 @@ function redigerBruker(id, oldNavn, oldDexId, oldLevel, oldType, oldType2) {
     });
 }
       </script>
-    </hoved>
+    </main>
 </body>
 </html>

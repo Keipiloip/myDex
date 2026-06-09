@@ -33,3 +33,85 @@ a {
     height: 90.2vh;
     
 }
+
+.card {
+ width: 270px;
+ height: 320px;
+ border-radius: 20px;
+ border: 3px solid white;
+ background-color: lightslategray;
+}
+
+.card-top {
+    width: 270px;
+    height: 200px;
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-top p {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    margin: 0;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.card-top .sprite {
+    max-height: 100%;
+    width: auto;
+}
+
+.card-bottom {
+    width: 270px;
+    height: 117px;
+    background-color: black;
+    border-bottom-right-radius: 17px;
+    border-bottom-left-radius: 17px;
+    border-top: 3px solid white;
+}
+
+
+
+.type-icons {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    gap: 6px;
+}
+
+.type-icon {
+    width: 40px;
+    height: auto;
+    position: static;
+}
+
+.card-bottom {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-bottom p {
+    color: white;
+    font-weight: bold;
+    font-size: 40px;
+    margin: 4px;
+}
+
+.card-bottom .small {
+    font-size: 24px;
+    font-weight: normal;
+}
+
+
+
+
+

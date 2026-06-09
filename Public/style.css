@@ -1,6 +1,7 @@
 body {
     margin: 0px;
     padding: 0px;
+    background-color: #6DB1BF;
 }
 
 a {
@@ -30,8 +31,16 @@ a {
     padding: 0px;
     margin: 0px;
     display: flex;
-    height: 90.2vh;
+    flex-direction: column;
+    align-items: center;
     
+}
+
+.pokedex-header {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 40px;
+    color: white;
 }
 
 .card {
@@ -39,7 +48,7 @@ a {
  height: 320px;
  border-radius: 20px;
  border: 3px solid white;
- background-color: lightslategray;
+ background-color: gray;
 }
 
 .card-top {
@@ -78,12 +87,19 @@ a {
     border-top: 3px solid white;
 }
 
-
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
 
 .type-icons {
     position: absolute;
     top: 8px;
     right: 12px;
+    display: flex;
     gap: 6px;
 }
 

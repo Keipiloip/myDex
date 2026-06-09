@@ -16,143 +16,138 @@
     </nav>
 
     <main class="Main_content">
+        <div class="pokedex-header">
         <h2>Pokédex</h2>
-        <p>Her kommer en oversikt over alle Pokémonene du har lagt til i din Pokédex!</p>
-    
-        <div class="card"> 
-            <div class="card-top">
-                <p>#1</p>
-                <img class="sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png">
-                
-                <div class="type-icons">
-                <img class="type-icon" src="img/Energy/grass_type.png" alt="Grass Type">
-                <img class="type-icon" src="img/Energy/poison_type.png" alt="Poison Type">
-            </div>
-                
-            </div>
-  
-            <div class="card-bottom">
-                <p>Bulbasaur</p>
-                <p class ="small">Level: 5</p>
-            
-            </div>
-
+        <p>Her er en oversikt over alle Pokémonene du eier!</p>
         </div>
 
-        <div id="pokedex-container"></div>
+        <template id="card-template">
+            <div class="card"> 
+                <div class="card-top">
+                    <p>#1</p>
+                    <img class="sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png" alt="Pokemon sprite">
+                    <div class="type-icons">
+                        <img class="type-icon" src="img/Energy/grass_type.png" alt="Grass Type">
+                        <img class="type-icon" src="img/Energy/poison_type.png" alt="Poison Type">
+                    </div>
+                </div>
+                <div class="card-bottom">
+                    <p class="name">Bulbasaur</p>
+                    <p class="small">Level: 5</p>
+                </div>
+            </div>
+        </template>
+
+        <div id="pokedex-container" class="card-grid"></div>
 
         
 
     <script>
-        // Fetch data from the server
+        const container = document.getElementById('pokedex-container');
+        const template = document.getElementById('card-template');
+
+        function getTypeIcon(type) {
+            if (!type) return null;
+            const normalized = type.trim().toLowerCase();
+            const map = {
+                grass: 'grass_type.png',
+                poison: 'poison_type.png',
+                fire: 'fire_type.png',
+                water: 'water_type.png',
+                electric: 'electric_type.png',
+                rock: 'rock_type.png',
+                ground: 'ground_type.png',
+                flying: 'flying_type.png',
+                psychic: 'psychic_type.png',
+                ice: 'ice_type.png',
+                dragon: 'dragon_type.png',
+                dark: 'dark_type.png',
+                fairy: 'fairy_type.png',
+                steel: 'steel_type.png',
+                bug: 'bug_type.png',
+                ghost: 'ghost_type.png',
+                normal: 'normal_type.png'
+            };
+            const fileName = map[normalized] || `${normalized}_type.png`;
+            return `img/Energy/${fileName}`;
+        }
+
+        function createCard(pokemon) {
+            const fragment = template.content.cloneNode(true);
+            const card = fragment.querySelector('.card');
+            const idLabel = card.querySelector('.card-top p');
+            const sprite = card.querySelector('.sprite');
+            const nameText = card.querySelector('.name');
+            const levelText = card.querySelector('.small');
+            const typeIcons = card.querySelector('.type-icons');
+
+            const idValue =     pokemon.dex_id || '';
+            const nameValue =   pokemon.Navn || '';
+            const levelValue =  pokemon.Level || '';
+            const typeValue =   pokemon.Type || '';
+            const type2Value =  pokemon.Type2 || '';
+
+            idLabel.textContent = idValue ? `#${idValue}` : '#?';
+            sprite.src = '';
+            sprite.alt = nameValue;
+            nameText.textContent = nameValue;
+            levelText.textContent = `Level: ${levelValue}`;
+
+            typeIcons.innerHTML = '';
+            const firstIcon = getTypeIcon(typeValue);
+            if (firstIcon) {
+                const icon = document.createElement('img');
+                icon.className = 'type-icon';
+                icon.src = firstIcon;
+                icon.alt = typeValue;
+                typeIcons.appendChild(icon);
+            }
+            const secondIcon = getTypeIcon(type2Value);
+            if (secondIcon) {
+                const icon = document.createElement('img');
+                icon.className = 'type-icon';
+                icon.src = secondIcon;
+                icon.alt = type2Value;
+                typeIcons.appendChild(icon);
+            }
+
+            const apiName = nameValue.trim().toLowerCase().replace(/\s+/g, '-');
+            if (apiName) {
+                fetch(`https://pokeapi.co/api/v2/pokemon/${encodeURIComponent(apiName)}`)
+                    .then(response => response.json())
+                    .then(apiData => {
+                        if (apiData.id) {
+                            idLabel.textContent = `#${apiData.id}`;
+                        }
+                        if (apiData.sprites && apiData.sprites.other && apiData.sprites.other.home && apiData.sprites.other.home.front_default) {
+                            sprite.src = apiData.sprites.other.home.front_default;
+                        } else if (apiData.sprites && apiData.sprites.front_default) {
+                            sprite.src = apiData.sprites.front_default;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('PokeAPI fetch error for', apiName, error);
+                    });
+            }
+
+            return fragment;
+        }
+
         fetch('/api/pokemon')
-            .then(response => response.json()) // Convert the response to JSON
+            .then(response => response.json())
             .then(data => {
-                // Find the div where the data will be displayed
-                const container = document.getElementById('pokedex-container');
-
-                // Create a bullet list
-                const list = document.createElement('ul');
-
-                // Loop through each Pokémon in the list
-                data.forEach(pokemon => {
-                    const li = document.createElement('li');
-
-                    // Display name, dex ID, type and secondary type
-                    li.textContent =
-                        pokemon.Navn + ' ' +
-                        "Dex Id:" + pokemon.dex_id + ' ' +
-                        "lvl" + pokemon.Level + ' ' +
-                        pokemon.Type + ' / ' +
-                        pokemon.Type2;
-
-                    const img = document.createElement('img');
-                    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.Navn}`)
-                        .then(response => response.json())
-                        .then(apiData => {
-                            img.src = apiData.sprites.other.home.front_default;
-                        })
-                        .catch(apiError => {
-                            console.error('Sprite fetch error', apiError);
-                        });
-
-                    li.appendChild(img);
-
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Delete';
-                    deleteButton.onclick = () => slettBruker(pokemon.id);
-
-                    const editButton = document.createElement('button');
-                    editButton.textContent = 'Edit';
-                    editButton.onclick = () => redigerBruker(pokemon.id, pokemon.Navn, pokemon.dex_id, pokemon.Level, pokemon.Type, pokemon.Type2);
-
-                    li.appendChild(deleteButton);
-                    li.appendChild(editButton);
-
-                    list.appendChild(li);
-                });
-
-                // Add the list to the page
-                container.appendChild(list);
+                container.innerHTML = '';
+                if (!Array.isArray(data) || data.length === 0) {
+                    container.textContent = 'Ingen Pokémon funnet ennå.';
+                    return;
+                }
+                data.forEach(pokemon => container.appendChild(createCard(pokemon)));
             })
             .catch(error => {
-                // Show an error message if something goes wrong
-                document.getElementById('pokedex-container').textContent = 'Error fetching data.';
-
-                // Show the error in the console
+                container.textContent = 'Error fetching data.';
                 console.error(error);
             });
-
-function slettBruker(id) {
-  fetch('/api/pokemon/' + id, {
-    method: 'DELETE'
-  })
-    .then(response => response.json())
-    .then(data => {
-      alert(data.message);
-      location.reload();
-    })
-    .catch(error => {
-      console.error(error);
-      alert('Error with deletion');
-    });
-}
-
-function redigerBruker(id, oldNavn, oldDexId, oldLevel, oldType, oldType2) {
-    const newNavn = prompt('write new name:', oldNavn);
-    const newdex_id = prompt('write new Dex ID:', oldDexId);
-    const newLevel = prompt('write new Level:', oldLevel);
-    const newType = prompt('write new Type:', oldType);
-    const newType2 = prompt('write new Type 2:', oldType2);
-
-    if (newNavn === null || newdex_id === null || newLevel === null || newType === null || newType2 === null) {
-        return;
-    }
-
-    fetch('/api/pokemon/' + id, {
-        method: 'PUT',
-        headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        navn: newNavn,
-        dex_id: newdex_id,
-        Level: newLevel,
-        Type: newType,
-        Type2: newType2
-    })
-  })
-    .then(response => response.json())
-    .then(data => {
-      alert(data.message);
-      location.reload();
-    })
-    .catch(error => {
-      console.error(error);
-      alert('Error with editing');
-    });
-}
-      </script>
+    </script>
     </main>
 </body>
 </html>

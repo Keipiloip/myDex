@@ -15,17 +15,24 @@
         </ul>
     </nav>
 
-    <hoved class ="Main_content">
+    <main class="Main_content">
         <h2>Add Pokémon</h2>
+        <div class="form-container">
         <form method="POST" action="/add">
-            Navn: <input type="text" name="navn"><br>
-            Dex ID: <input type="text" name="dex_id"><br>
-            Level: <input type="text" name="level"><br>
-            Type: <input type="text" name="type"><br>
-            Type 2: <input type="text" name="type2"><br>
-            <input type="submit" value="Send in">
+            Name:<br>
+            <input type="text" name="navn"><br>
+            Dex number:<br>
+            <input type="text" name="dex_id"><br>
+            Level:<br>
+            <input type="text" name="level"><br>
+            Type:<br>
+            <input type="text" name="type"><br>
+            Type 2:<br>
+            <input type="text" name="type2"><br>
+            <button type="submit" value="submit">Submit</button>
         </form>
+    </div>
         
-    </hoved>
+    </main>
 </body>
 </html>

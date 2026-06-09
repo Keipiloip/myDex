@@ -18,7 +18,7 @@ app.post('/add', (req, res) => {
  [navn, dex_id, level, type, type2], 
  (err) => { 
  if (err) return res.send('Error in database: ' + err.message); 
- res.send('Data added!'); 
+ res.redirect('/pokedex.html'); 
  } 
  ); 
 
